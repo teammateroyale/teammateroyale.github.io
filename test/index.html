@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luni Research – Interactive Case Notes</title>
+  <meta name="description" content="A student research site documenting interaction findings and reflections on luni.app." />
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --panel: #111118;
+      --text: #e8e8ef;
+      --muted: #b8b8c7;
+      --brand: #8ad0ff;
+      --accent: #a7f3d0;
+      --ring: rgba(138,208,255,0.45);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f7f7fb;
+        --panel: #ffffff;
+        --text: #111118;
+        --muted: #5a5a6b;
+        --brand: #0ea5e9;
+        --accent: #10b981;
+        --ring: rgba(14,165,233,.25);
+        --shadow: 0 10px 30px rgba(0,0,0,.08);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+      Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 10% -10%, rgba(138,208,255,.08), transparent 60%),
+                  radial-gradient(900px 700px at 120% 0%, rgba(16,185,129,.07), transparent 60%), var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Skip link */
+    .skip-link { position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .skip-link:focus { left: 1rem; top: 1rem; width:auto; height:auto; padding:.5rem .75rem; background:var(--panel); border-radius:.5rem; box-shadow:var(--shadow); outline:2px solid var(--brand); }
+
+    /* Header */
+    header { position: sticky; top: 0; z-index: 40; backdrop-filter: saturate(140%) blur(8px); background: color-mix(in hsl, var(--bg), transparent 70%); border-bottom: 1px solid color-mix(in hsl, var(--text), transparent 92%); }
+    .nav { max-width: 1100px; margin: 0 auto; padding: .8rem 1rem; display: flex; gap: 1rem; align-items: center; justify-content: space-between; }
+    .brand { display:flex; align-items:center; gap:.6rem; font-weight: 700; letter-spacing:.3px; }
+    .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(135deg, var(--brand), var(--accent)); box-shadow: 0 0 0 6px var(--ring); }
+    nav a { color: var(--text); text-decoration: none; opacity: .9; padding: .4rem .6rem; border-radius: .5rem; }
+    nav a:hover { background: color-mix(in hsl, var(--panel), transparent 60%); }
+
+    .hero { max-width:1100px; margin: 2.5rem auto 1.5rem; padding: 0 1rem; display:grid; grid-template-columns: 1.2fr .8fr; gap:2rem; align-items:center; }
+    .h1 { font-size: clamp(1.9rem, 3.2vw, 3rem); line-height:1.1; letter-spacing:-.02em; margin: 0 0 1rem; }
+    .lede { color: var(--muted); margin: 0 0 1rem; }
+    .pill { display:inline-flex; align-items:center; gap:.5rem; padding:.35rem .6rem; background: color-mix(in hsl, var(--panel), transparent 30%); border:1px solid color-mix(in hsl, var(--text), transparent 88%); border-radius: 999px; font-size: .85rem; }
+    .cta { display:inline-flex; gap:.6rem; align-items:center; padding:.7rem 1rem; background: linear-gradient(135deg, color-mix(in hsl, var(--brand), white 10%), color-mix(in hsl, var(--accent), white 10%)); color:#0b0b0f; border:none; border-radius:.8rem; font-weight:700; box-shadow: var(--shadow); cursor:pointer; }
+    .cta:focus { outline: 3px solid var(--ring); outline-offset: 2px; }
+
+    /* Card grid */
+    .section { max-width:1100px; margin: 2rem auto; padding: 0 1rem; }
+    .section h2 { font-size: clamp(1.3rem,2.2vw,2rem); margin: 0 0 1rem; letter-spacing:-.01em; }
+    .grid { display:grid; grid-template-columns: repeat(12,1fr); gap:1rem; }
+    .card { grid-column: span 12; background: var(--panel); border:1px solid color-mix(in hsl, var(--text), transparent 90%); border-radius: 1.1rem; padding: 1rem; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    @media (min-width: 800px) {
+      .card.half { grid-column: span 6; }
+      .card.third { grid-column: span 4; }
+    }
+    .card h3 { margin:.2rem 0 .4rem; font-size: 1.05rem; }
+    .muted { color: var(--muted); font-size:.95rem; }
+
+    /* Fancy hover */
+    .hover-tilt { transition: transform .2s ease, box-shadow .2s ease; }
+    .hover-tilt:hover { transform: translateY(-3px) rotateX(2deg) rotateY(-2deg); box-shadow: 0 20px 40px rgba(0,0,0,.25); }
+
+    /* List styles */
+    ul.clean { list-style: none; margin: .5rem 0 0; padding: 0; }
+    ul.clean li { position: relative; padding-left: 1.2rem; margin: .35rem 0; }
+    ul.clean li::before { content: ""; position: absolute; left: 0; top: .55rem; width: .5rem; height: .5rem; border-radius: 50%; background: linear-gradient(135deg, var(--brand), var(--accent)); box-shadow: 0 0 0 4px var(--ring); }
+
+    /* Figures */
+    figure { margin: 0; border:1px solid color-mix(in hsl, var(--text), transparent 90%); border-radius: 1rem; overflow: hidden; background: color-mix(in hsl, var(--panel), transparent 10%); }
+    figure img { display:block; width:100%; height:auto; }
+    figure figcaption { font-size: .9rem; color: var(--muted); padding:.6rem .8rem; border-top:1px dashed color-mix(in hsl, var(--text), transparent 85%); }
+
+    /* Footer */
+    footer { border-top: 1px solid color-mix(in hsl, var(--text), transparent 90%); margin-top: 3rem; }
+    .foot { max-width:1100px; margin: 0 auto; padding: 1.5rem 1rem 3rem; color: var(--muted); font-size:.95rem; }
+
+    /* Small helpers */
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: color-mix(in hsl, var(--panel), transparent 30%); border:1px solid color-mix(in hsl, var(--text), transparent 86%); padding: .1rem .35rem; border-radius:.4rem; font-size:.85em; }
+    .tag { display:inline-block; padding:.2rem .5rem; border: 1px solid color-mix(in hsl, var(--text), transparent 86%); border-radius:.5rem; margin:.15rem .2rem 0 0; font-size:.85rem; color: var(--muted); }
+    .note { border-left: 3px solid var(--brand); padding-left: .75rem; margin: .75rem 0; color: var(--muted); }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header aria-label="Site header and navigation">
+    <div class="nav">
+      <div class="brand" aria-label="Site title">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>Luni Research Notes</span>
+      </div>
+      <nav aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#journal">Interaction Journal</a>
+        <a href="#insights">Analysis</a>
+        <a href="#visuals">Visual References</a>
+        <a href="#reflection">Reflection</a>
+        <a href="#credits">Credits</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <span class="pill" title="Project context"><span aria-hidden>●</span> Study of interactive branding</span>
+        <h1 id="hero-title" class="h1">Research on <span style="background:linear-gradient(135deg,var(--brand),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent">luni.app</span></h1>
+        <p class="lede">This website documents my observations, interaction logs, and design takeaways from exploring Luni’s interactive website. It aims to present clear, approachable insights while keeping a playful, modern feel.</p>
+        <p>
+          <a class="cta" href="#journal" aria-label="Jump to Interaction Journal">Start with the journal →</a>
+        </p>
+      </div>
+      <div>
+        <figure class="hover-tilt" aria-label="Decorative mock canvas">
+          <img src="https://picsum.photos/800/500" alt="Abstract placeholder visual with soft gradients" />
+          <figcaption>Placeholder visual. Replace with your own screenshot of the luni.app homepage.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section" aria-labelledby="about-title">
+      <h2 id="about-title">About this Project</h2>
+      <div class="grid">
+        <article class="card half hover-tilt">
+          <h3>Context</h3>
+          <p class="muted">Scope &amp; purpose</p>
+          <p>This site compiles my research into <strong>luni.app</strong> — focusing on how interactivity, motion, and visual language communicate a creative brand identity. It’s written as a mix of journal notes and design analysis.</p>
+        </article>
+        <article class="card half hover-tilt">
+          <h3>Objectives</h3>
+          <p class="muted">What I set out to learn</p>
+          <ul class="clean">
+            <li>Understand how the site uses <em>3D, motion, and typography</em> to tell a brand story.</li>
+            <li>Record discrete user actions and identify common interaction patterns.</li>
+            <li>Extract practical takeaways for my own web/interaction design work.</li>
+          </ul>
+        </article>
+      </div>
+      <p class="note">Tip: press <span class="kbd">G</span> then a section letter (<span class="kbd">J</span>ournal, <span class="kbd">A</span>nalysis, <span class="kbd">V</span>isuals, <span class="kbd">R</span>eflection) to jump quickly. </p>
+    </section>
+
+    <!-- JOURNAL -->
+    <section id="journal" class="section" aria-labelledby="journal-title">
+      <h2 id="journal-title">Interaction Journal (13 prompts)</h2>
+      <div class="grid">
+        <article class="card third hover-tilt">
+          <h3>First focus</h3>
+          <p class="muted">Q1</p>
+          <p>3D interactive menu with a modern, unique style; clean typography in the background.</p>
+        </article>
+        <article class="card third hover-tilt">
+          <h3>Two‑minute actions</h3>
+          <p class="muted">Q2</p>
+          <ul class="clean">
+            <li>Scrolled the homepage.</li>
+            <li>Found the <em>Omada</em> section.</li>
+            <li>Clicked to open it and explored.</li>
+            <li>Scrolled to read more about the app and team.</li>
+          </ul>
+        </article>
+        <article class="card third hover-tilt">
+          <h3>Most time spent</h3>
+          <p class="muted">Q3</p>
+          <p>Interacting with 3D elements on each page; watching hover/exit animations on corners.</p>
+        </article>
+
+        <article class="card third hover-tilt">
+          <h3>Most common action</h3>
+          <p class="muted">Q4</p>
+          <p>Clicking on almost every interactive object, button, and text after understanding the interface.</p>
+        </article>
+        <article class="card third hover-tilt">
+          <h3>Primary goal (impression)</h3>
+          <p class="muted">Q5</p>
+          <p>Showcase Luni’s creativity in building digital brands.</p>
+        </article>
+        <article class="card third hover-tilt">
+          <h3>How the goal is communicated</h3>
+          <p class="muted">Q6</p>
+          <p>Turning the site into a full interactive journey: scroll &amp; click to discover identity, projects, and team; strong visuals + navigation.</p>
+        </article>
+
+        <article class="card third hover-tilt">
+          <h3>How to engage over time</h3>
+          <p class="muted">Q7</p>
+          <p>About 15+ minutes for design‑interested users; explore navigation and transitions between pages.</p>
+        </article>
+        <article class="card third hover-tilt">
+          <h3>Signals for long‑term use</h3>
+          <p class="muted">Q8</p>
+          <p>Playful 3D objects, text, and icons guide exploration; consistent art style &amp; typography clarify navigation.</p>
+        </article>
+        <article class="card third hover-tilt">
+          <h3>Media references</h3>
+          <p class="muted">Q9</p>
+          <p>Games and playful interfaces with interactive 3D and engaging motion.</p>
+        </article>
+
+        <article class="card third hover-tilt">
+          <h3>How to act</h3>
+          <p class="muted">Q10</p>
+          <p>Interact playfully and experimentally: click, hover, and freely explore responses.</p>
+        </article>
+        <article class="card third hover-tilt">
+          <h3>How to feel</h3>
+          <p class="muted">Q11</p>
+          <p>Relaxed and entertained, with appreciation for Luni’s creative capabilities.</p>
+        </article>
+        <article class="card third hover-tilt">
+          <h3>Most frustrating</h3>
+          <p class="muted">Q12</p>
+          <p>Homepage menu has an extra page‑switch section that feels unnecessary alongside large 3D elements + top‑corner button.</p>
+        </article>
+
+        <article class="card half hover-tilt">
+          <h3>Most satisfying</h3>
+          <p class="muted">Q13</p>
+          <p>Very smooth animations and transitions; cartoonish, modern, playful art style makes exploration enjoyable.</p>
+        </article>
+        <article class="card half hover-tilt">
+          <h3>Tags</h3>
+          <p>
+            <span class="tag">3D UI</span>
+            <span class="tag">Motion</span>
+            <span class="tag">Playful UX</span>
+            <span class="tag">Interactive Branding</span>
+            <span class="tag">Typography</span>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- INSIGHTS / ANALYSIS -->
+    <section id="insights" class="section" aria-labelledby="insights-title">
+      <h2 id="insights-title">Analysis &amp; Insights</h2>
+      <div class="grid">
+        <article class="card half hover-tilt">
+          <h3>Design Takeaways</h3>
+          <ul class="clean">
+            <li>Interactivity as brand voice: motion/3D are not decoration, they <em>communicate identity</em>.</li>
+            <li>Guided curiosity: visual cues (icons, layout, transitions) nudge exploration without heavy copy.</li>
+            <li>Consistency matters: unified art style + type = clearer navigation and stronger memory.</li>
+          </ul>
+        </article>
+        <article class="card half hover-tilt">
+          <h3>Opportunities</h3>
+          <ul class="clean">
+            <li>Simplify the home menu to reduce cognitive load.</li>
+            <li>Offer a lightweight “start here” hint for first‑time users.</li>
+            <li>Add micro‑help overlays that can be dismissed once learned.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- VISUAL REFERENCES -->
+    <section id="visuals" class="section" aria-labelledby="visuals-title">
+      <h2 id="visuals-title">Visual References</h2>
+      <div class="grid">
+        <article class="card half hover-tilt">
+          <figure>
+            <img src="https://picsum.photos/1200/700?1" alt="Placeholder screenshot of interactive section" />
+            <figcaption>Replace with screenshot: 3D interactive menu on the homepage.</figcaption>
+          </figure>
+        </article>
+        <article class="card half hover-tilt">
+          <figure>
+            <img src="https://picsum.photos/1200/700?2" alt="Placeholder screenshot of Omada section" />
+            <figcaption>Replace with screenshot: Omada section styled like a basketball court.</figcaption>
+          </figure>
+        </article>
+      </div>
+    </section>
+
+    <!-- REFLECTION -->
+    <section id="reflection" class="section" aria-labelledby="reflection-title">
+      <h2 id="reflection-title">Reflection (Narrative)</h2>
+      <article class="card hover-tilt">
+        <p>When I first visited luni.app, the thing that grabbed my attention was the 3D interactive menu — it looked super modern and unique, and the clean typography in the background made it feel really polished. I started scrolling and found Omada, got curious, and clicked on it to check it out. It turned out to be a really interesting app for sports fans, so I kept scrolling to read more about it and the team behind it. Honestly, I spent most of my time on the 3D interactive elements on every page because I couldn’t stop watching how every corner animated when I hovered or moved my mouse. The thing I did the most was clicking on almost every button, text, and object once I figured out how the site worked.</p>
+        <p>To me, the main goal of the site is to show off how creative Luni is at building digital brands, and it does that by making the whole website an interactive experience. You can explore their identity, projects, and team, and the visual design plus the navigation really help communicate that. I feel like someone interested in design would spend at least 15+ minutes here, exploring how the pages and transitions work. The playful 3D objects, text, and icons guide you naturally, and the consistent art style and typography make everything feel clear and connected.</p>
+        <p>The site reminds me of games and playful digital interfaces, which makes it fun to explore freely and experiment without pressure. It’s relaxing, entertaining, and also makes you appreciate what Luni is capable of. The only frustrating part was the homepage menu — there’s the large 3D elements and the top‑corner button, which are fine, but then there’s another page‑switching section that felt kind of extra. The best part, though, is definitely the animations and transitions — they’re super smooth, and the cartoonish, modern, playful style makes the whole experience really satisfying to interact with.</p>
+        <p><strong>Conclusion:</strong> Overall, the experience left me impressed with how much thought and creativity went into the site. It’s not just a portfolio or a showcase; it’s an interactive journey that makes exploring Luni fun, engaging, and inspiring.</p>
+      </article>
+    </section>
+
+    <!-- CREDITS -->
+    <section id="credits" class="section" aria-labelledby="credits-title">
+      <h2 id="credits-title">Credits &amp; Meta</h2>
+      <div class="grid">
+        <article class="card half hover-tilt">
+          <h3>Sources</h3>
+          <ul class="clean">
+            <li>Primary source: <em>luni.app</em> (accessed for interaction study).</li>
+            <li>All opinions and notes authored by <em>[Your Name]</em>.</li>
+          </ul>
+        </article>
+        <article class="card half hover-tilt">
+          <h3>Project Info</h3>
+          <ul class="clean">
+            <li>Course / Module: <em>[Add here]</em></li>
+            <li>Date: <em>[Add date]</em></li>
+            <li>Tools: <em>Browser, Screenshots, Notes</em></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot">
+      <p>© <span id="year"></span> • Luni Research Notes • Built for learning & sharing</p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple keyboard jumps (G + letter)
+    const map = { j: '#journal', a: '#insights', v: '#visuals', r: '#reflection' };
+    let gPressed = false;
+    addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'g') { gPressed = true; return; }
+      if (gPressed) {
+        const id = map[e.key.toLowerCase()];
+        if (id) {
+          location.hash = id;
+          e.preventDefault();
+        }
+        gPressed = false;
+      }
+    });
+    addEventListener('keyup', (e) => { if (e.key.toLowerCase() === 'g') gPressed = false; });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

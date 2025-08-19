@@ -1,0 +1,239 @@
+/* Reset some defaults */
+* {
+    
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ 
+
+/* Body styling */
+body {
+    font-family: "Lexend";
+  line-height: 1.6;
+  background: #f9f9f9;
+  color: #333;
+  
+  
+  
+}
+
+
+/* Headings */
+h1 {
+margin-left: 80px;
+  font-size: 2rem;
+  margin-bottom: 0rem;
+  text-align: left;
+  color: #d1d2fa;
+  /* font-family: "Dancing Script" */
+  
+}
+.title-secondary {
+    margin-left: auto;
+    font-family: "Dancing Script";
+    color: #b0a1e1;
+    font-size:4.0rem ;
+    margin-top:5.0rem;
+    
+}
+h2 {
+   
+  font-size: 3.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  color:#ffffff;
+   font-family:"Dancing Script" ;
+  
+  padding-left: 10px;
+}
+.inter {
+    color:#5d629c;
+}
+
+/* Paragraphs */
+p {
+font-family: "Raleway",sans-serif;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #ffffff;
+  margin-top: 15px;
+}
+
+/* Lists */
+ul {
+  margin-left: 20px;
+  margin-bottom: 0.5rem;
+}
+
+ul li {
+  margin-bottom: auto;
+  color:#4e116b
+}
+
+/* Style for navbar */
+.navbar {
+  position: fixed;  
+  top: 0;
+  left: 0;
+  width: 100%;       
+  background-color: #5d629c;
+  padding: 10px 0;
+  z-index: 1000;     
+}
+
+/* Remove list styling */
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* Navigation items inline */
+.navbar ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+/* Links style */
+.navbar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+/* Add spacing */
+.content {
+  margin-top: 60px;
+}
+/* scroll behaviour */
+html {
+    scroll-behavior: smooth;
+}
+/* button */
+button{
+    font-family:"Lexend";
+    background-color: #5d629c;
+    font-size:1.25em;
+    color: #f9f9f9;
+    padding: 10px 20px;
+    cursor: pointer;
+border:none;
+border-radius: 10px;
+margin-top: 20px;
+;
+}
+/* about section */
+#about {
+    background-color:#b0a1e1;
+    min-height:60vh;
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    gap:20px 
+    
+}
+.left-about,.right-about {
+    width:40%;
+}
+
+#intro {
+    padding: 40px;
+}
+h3 {
+    color: #5d629c;
+}
+/* interactional section */
+#interaction {
+    
+    min-height:100vh;
+    max-height: 450vh;
+    padding: 40px;
+    text-align:right;
+    
+}
+.questionnaire-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.question-box {
+  background-color:#b0a1e1;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.question {
+  font-family:"Lexend";
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.answer {
+  color: #ffffff;
+  ;}
+  /* analysis section */
+  #insight{
+    background-color:#b0a1e1;
+    min-height:40vh;
+    max-height: 45vh;
+    padding: 40px;
+ 
+gap:20px ;
+   
+  }
+  /* reflection section */
+  #reflection {
+    text-align:right;
+    min-height: 85vh;
+    padding: 40px;
+    gap:20px ;
+    
+    
+  }
+  .skibidi {
+    columns: 2;
+    column-gap: 30px;
+    line-height: 1.6;
+ 
+ }
+ .color {
+    color: #4e116b;
+    font-family:"Lexend";
+    text-align: left;
+ }
+  .mac {
+    color: #5d629c;
+    
+  }
+  /*visual references*/
+  #visuals {
+    padding: 70px;
+    text-align:right;
+  }
+  /*credits section*/
+#credits {
+   
+  top: 0;
+  left: 0;
+  width: 100%;       
+  background-color: #5d629c;
+  padding: 40px;
+}
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color:#b0a1e1;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.btn:hover {
+  background-color:#d1d2fa;
+}
