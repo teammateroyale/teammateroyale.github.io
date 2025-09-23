@@ -3,7 +3,8 @@ const playPauseBtn = document.getElementById('play-pause');
 const progress = document.getElementById('progress');
 const volume = document.getElementById('volume');
 const fullscreenBtn = document.getElementById('fullscreen');
-
+const currentTimeEl = document.getElementById("current-time");
+const durationEl = document.getElementById("duration");
 // Play/Pause toggle
 playPauseBtn.addEventListener('click', () => {
   if (video.paused) {
@@ -59,7 +60,27 @@ confirmBtn.addEventListener('click', () => {
   magicPopup.style.display = 'none';
   video.play(); // resume video
 });
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+}
 
+// Update duration once metadata is loaded
+video.addEventListener("loadedmetadata", () => {
+  durationEl.textContent = formatTime(video.duration);
+  progress.max = Math.floor(video.duration);
+});
+
+// Update current time as video plays
+video.addEventListener("timeupdate", () => {
+  currentTimeEl.textContent = formatTime(video.currentTime);
+  progress.value = Math.floor(video.currentTime);
+});
+// Allow seeking
+progress.addEventListener("input", () => {
+  video.currentTime = progress.value;
+});
 
 
 
