@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dark Fantasy Playlist - Tracks</title>
+  <title>Dark Fantasy adventure</title>
+  <link rel="stylesheet" href="playlist.css">
+   <title>Dark Fantasy adventure - Playlist</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <!-- Navbar -->
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
@@ -17,25 +18,52 @@
     </ul>
   </nav>
 
-<!-- Playlist -->
- <div class="video-container">
-  <div id="particleBackground"></div>
+  <canvas id="particles"></canvas>
+  <canvas id="noiseCanvas"></canvas>
 
-  <video id="myVideo" width="800" height="450">
-    <source src="hide.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <div class="playlist-container">
+    <h1 class="page-title">Choose your adventure</h1>
+    <div class="song-cards">
+      <!-- Song Card 1 -->
+      <div class="song-card" data-video="song1.mp4">
+        <img src="cover 1.jpg" alt="Blod Besvimelse - Misantrop">
+        <div class="overlay">
+          <h2>Blod Besvimelse - Misantrop</h2>
+          <p>Mystical, adventurous, epic</p>
+          <span class="duration">2;43</span>
+          <a href="thelobotomy.html"><button class="play-btn">▶ Play</button></a>
+        </div>
+      </div>
 
-  <div class="controls">
-    <button id="playPause" class="btn">▶️</button>
-    <input type="range" id="progressBar" value="0" min="0" step="0.1">
-    <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
-    <button id="fullscreenBtn" class="btn">⛶</button>
+      <!-- Song Card 2 -->
+      <div class="song-card" data-video="song2.mp4">
+        <img src="cover2.jpg" alt="Hide">
+        <div class="overlay">
+          <h2>
+Dorian Concept - 'Hide (CS01 Version)'</h2>
+          <p>Dark, mysterious, intense</p>
+          <span class="duration">4:12</span>
+          <a href="hide.html">
+          <button class="play-btn">▶ Play</button></a>
+        </div>
+      </div>
+
+      <!-- Song Card 3 -->
+      <div class="song-card" data-video="song3.mp4">
+        <img src="cover 3.jpg" alt="The Lobotomy">
+        <div class="overlay">
+          <h2>The Lobotomy - Maebi</h2>
+          <p>Epic, cinematic, fantasy</p>
+          <span class="duration">5:01</span>
+          <a href="thelobotomy.html"><button class="play-btn">▶ Play</button></a>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-<script src="script.js"></script>
+<script src="playlist.js"></script>
 </body>
 </html>
+
  
 
  

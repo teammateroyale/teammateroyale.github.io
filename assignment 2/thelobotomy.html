@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Fantasy Playlist - Tracks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body1>
+  <!-- Navbar -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="playlist.html">Playlist</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+<!-- Playlist -->
+ <div class="video-container">
+  <video id="video">
+    <source src="The Lobotomy - Maebi (1080p, h264) (1).mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="controls">
+    <button id="play-pause">▶</button>
+    <input type="range" id="progress" value="0" min="0" step="1">
+     <button id="fullscreen">⛶</button>
+  </div>
+</div>
+
+<!-- Floating collapsible volume control -->
+<div class="volume-control">
+  <button class="volume-btn">🔊</button>
+  <input type="range" id="volume" min="0" max="1" step="0.05" value="1">
+</div>
+<canvas id="particles"></canvas>
+  
+
+  <script src="video-player.js"></script>
+
+</body1>
+</html>
