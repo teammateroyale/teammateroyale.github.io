@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Reflor — Interactive Garden</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- NAVBAR (glass, left logo, right links) -->
+    <header id="navbar">
+      <div class="nav-left">
+        <div class="brand">Reflor</div>
+      </div>
+      <nav class="nav-right" aria-label="Main navigation">
+        <a class="nav-link">Garden</a>
+        <a class="nav-link">How it works</a>
+        <a class="nav-link">About</a>
+      </nav>
+    </header>
+
+    <!-- LEFT TOOLBAR (icons only; hover tooltips) -->
+    <aside id="toolbar" aria-label="Tools">
+      <button
+        class="tool"
+        data-tool="seed"
+        data-tooltip="Plant seed"
+        aria-pressed="true"
+      >
+        🌱
+      </button>
+      <button class="tool" data-tool="water" data-tooltip="Water seed">
+        💧
+      </button>
+      <button class="tool" data-tool="erase" data-tooltip="Erase">🩹</button>
+
+      <div class="divider" aria-hidden="true"></div>
+
+      <div class="types-label">Flower</div>
+      <button class="type" data-species="daisy" data-tooltip="Daisy">🌼</button>
+      <button class="type" data-species="tulip" data-tooltip="Tulip">🌷</button>
+      <button class="type" data-species="rose" data-tooltip="Rose">🌹</button>
+    </aside>
+
+    <!-- BOTTOM-LEFT: Gradient swatch panel (user chose option 2) -->
+    <div id="swatches" aria-label="Background gradients">
+      <div class="swatch" data-g="linear-gradient(135deg,#a0c4ff,#caf0f8)">
+        Dawn
+      </div>
+      <div class="swatch" data-g="linear-gradient(135deg,#d8f3dc,#b7e4c7)">
+        Meadow
+      </div>
+      <div class="swatch" data-g="linear-gradient(135deg,#ffd6a5,#ffadad)">
+        Sunset
+      </div>
+      <div class="swatch" data-g="linear-gradient(135deg,#e0c3fc,#8ec5fc)">
+        Lavender
+      </div>
+      <div class="swatch" data-g="linear-gradient(135deg,#d7ffd9,#d0f4de)">
+        Spring
+      </div>
+    </div>
+
+    <!-- GARDEN -->
+    <main id="garden" role="main" aria-label="Interactive garden">
+      <div id="instruction">
+        Select the seed tool then click anywhere to plant 🌱
+      </div>
+    </main>
+
+    <!-- Reset control -->
+    <button id="resetBtn" aria-label="Reset garden">Reset</button>
+
+    <!-- Optional water audio file (place water.mp3 in same folder to use). If missing, a synth will play. -->
+    <audio id="waterAudio" src="water.mp3" preload="auto"></audio>
+
+    <script src="script.js"></script>
+  </body>
+</html>
