@@ -1,11 +1,3 @@
-/* Final refined Reflor logic
-   - consistent flower sizes, layered SVGs, leaf unfurl
-   - click-to-water + progress bar above seed
-   - erase tool removes by id
-   - gradient swatches bottom-left saved to localStorage
-   - persistence by stable id
-*/
-
 (() => {
   // DOM
   const garden = document.getElementById("garden");
@@ -17,7 +9,7 @@
   const waterAudio = document.getElementById("waterAudio");
 
   // CONFIG
-  const GROWTH_MS = 15000; // demo: 15s (change to 15*60*1000 for real-time)
+  const GROWTH_MS = 15000;
   const STORAGE_KEY = "reflor_v_final_v1";
   const BG_KEY = "reflor_bg_v1";
 
@@ -238,7 +230,6 @@
     el.innerHTML = svgMap[species] || svgMap.daisy;
     garden.appendChild(el);
 
-    // play bloom (CSS handles scale); add class after insert so transition animates
     requestAnimationFrame(() => el.classList.add("bloom"));
 
     // show leaf after a small delay
@@ -272,7 +263,7 @@
     el.remove();
   }
 
-  // Reset
+  // reset
   resetBtn.addEventListener("click", () => {
     timers.forEach((h) => clearInterval(h));
     timers.clear();
@@ -370,10 +361,9 @@
     garden.appendChild(progressWrap);
   }
 
-  // Expose createSeed for immediate use from garden click handler (we used above)
+  // expose createSeed for immediate use from garden click handler (we used above)
   window.createSeed = createSeed;
 
-  // Accessibility keyboard shortcuts 1=seed 2=water 3=erase
   window.addEventListener("keydown", (e) => {
     if (e.key === "1") selectTool("seed");
     if (e.key === "2") selectTool("water");

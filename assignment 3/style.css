@@ -129,6 +129,8 @@ body {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
   font-size: 12px;
   font-family: "Abril Fatface";
+  text-align: center;
+  padding-top: 5px;
 }
 .swatch:hover {
   transform: translateY(-4px);
@@ -159,7 +161,7 @@ body {
   z-index: 500;
 }
 
-/* SEED (click-to-water) */
+/* SEED  */
 .seed {
   position: absolute;
   width: 20px;
@@ -203,7 +205,7 @@ body {
   transition: width 0.12s linear;
 }
 
-/* FLOWER container (consistent size & transform origin) */
+/* FLOWER container  */
 .flower {
   position: absolute;
   width: var(--flower-size);
@@ -252,7 +254,7 @@ body {
   z-index: 1200;
 }
 
-/* responsive: make sure nav links don't overlap on narrow screens */
+/* responsive */
 @media (max-width: 880px) {
   .nav-right {
     gap: 14px;
